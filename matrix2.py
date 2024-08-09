@@ -24,6 +24,7 @@ origin = np.matmul(m1, m2)
 mask = np.random.rand(m, n) > rate
 observed = mask*origin # 点积
  
+# 猜测的问题秩上界
 guess = 40
 m3 = np.random.rand(m, guess)
 m4 = np.random.rand(guess, n)
@@ -82,5 +83,6 @@ for i in range(iter):
 
 end = time()
 print('time:',end-start)
+  
 
 
