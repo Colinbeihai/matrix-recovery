@@ -12,9 +12,9 @@ from time import time
 # pseudo
 np.random.seed(0)
 
-m, n = 80, 40
+m, n = 40, 20
 k = 4
-rate = -1
+rate = 0.2
 L = 2 # lambda in Algorithm
 iter = 2000
 
@@ -80,6 +80,9 @@ for i in range(iter):
     X = U@Sigma@(VT)
     loss = np.sum(np.square(X - origin))
     print(f'第{i+1}次迭代，loss值{loss}')
+    
+    if loss < 0.1:
+        break
 
 end = time()
 print('time:',end-start)
