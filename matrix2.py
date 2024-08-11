@@ -12,11 +12,11 @@ from time import time
 # pseudo
 np.random.seed(0)
 
-m, n = 80, 80
+m, n = 50, 50
 k = 4
-rate = 0.2
-L = 0.3 # lambda in Algorithm
-iter = 10
+rate = 0.1
+L = 1 # lambda in Algorithm
+iter = 5
 
 m1 = np.random.rand(m, k)
 m2 = np.random.rand(k, n)
@@ -25,13 +25,13 @@ mask = np.random.rand(m, n) > rate
 observed = mask*origin # 点积
  
 # 猜测的问题秩上界，k不大于guess,否则最开始迭代会按照总规模算，第一次迭代特别慢
-guess = 10
-m3 = np.random.rand(m, guess)
-m4 = np.random.rand(guess, n)
-X = np.matmul(m3, m4)
+# guess = 10
+# m3 = np.random.rand(m, guess)
+# m4 = np.random.rand(guess, n)
+# X = np.matmul(m3, m4)
 
 # 随机生成X
-# X = np.random.rand(m, n)
+X = np.random.rand(m, n)
 print(f'问题规模{m}×{n},初始loss值{np.sum(np.square(mask*X - mask*origin))}')
 
 def f_grad(X):
@@ -52,7 +52,7 @@ U, sigma, VT = np.linalg.svd(X, full_matrices=False)
 U, sigma, VT = reduce_SVD(U, sigma, VT)
 for i in range(iter):    
     U_h, sigma_h, VT_h = np.linalg.svd(X - f_grad(X), full_matrices=False)
-    U_G, sigma_G, VT_G = reduce_SVD(U, sigma, VT, L)
+    U_G, sigma_G, VT_G = reduce_SVD(U_h, sigma_h, VT_h, L)
     
     U_qr = np.concatenate((U_G, U),axis=1)
     VT_qr = np.concatenate((VT_G, VT),axis=0)
